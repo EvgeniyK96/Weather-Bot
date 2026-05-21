@@ -29,6 +29,23 @@ db_config = psycopg2.connect(**CONNECT)
 
 # Учитель сказал: Пообщаться с GPT или Cloud и попрактиковаться в SQL запросах
 with db_config.cursor() as cursor:
-    cursor.execute("select * from users")
-    users = cursor.fetchall()
-    print(users)
+    # cursor.execute(f"insert into users (user_id, username, first_name, last_name, phone, location, city) values (%s, %s, %s, %s, %s, %s, %s)",
+    #             (
+    #                 134456789,
+    #                 'fbdfbf',
+    #                 'Edbfdb',
+    #                 'Kurdfbd',
+    #                 '+7734567890',
+    #                 '55.7558, 37.6173',
+    #                 'Astana'
+    #             ))
+    # db_config.commit()
+
+    # city = "Almaty"
+    # cursor.execute("SELECT * FROM users WHERE city = %s", (city,))
+    # users = cursor.fetchall()
+    # print(users)
+
+    # cursor.execute("DELETE FROM users")
+    # db_config.commit()
+    
