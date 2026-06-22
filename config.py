@@ -5,7 +5,7 @@ load_dotenv()
 
 
 bot_token = os.getenv("BOT_TOKEN", "")
-weather_api_key = int(os.getenv("API_KEY", "0"))
+weather_api_key = os.getenv("API_KEY", "0")
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 if DATABASE_URL:
