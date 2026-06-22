@@ -7,3 +7,5 @@ psycopg2-binary==2.9.12
 pyTelegramBotAPI==4.33.0
 requests==2.34.2
 urllib3==2.7.0
+pytz==2024.2
+python-dotenv==1.0.1
