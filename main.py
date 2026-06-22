@@ -157,5 +157,7 @@ def handle_location(message: types.Message):
 #start=============================================
 
 if __name__ == '__main__':
+    from database import init_db
+    init_db() 
     print('Bot is running...')
     bot.polling(none_stop=True)

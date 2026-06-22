@@ -91,3 +91,18 @@ def user_update(**kwargs):
         return True
 
 
+def init_db():
+    with db_config.cursor() as cursor:
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS users (
+                id SERIAL PRIMARY KEY,
+                user_id BIGINT UNIQUE NOT NULL,
+                username VARCHAR(255),
+                first_name VARCHAR(255),
+                last_name VARCHAR(255),
+                phone VARCHAR(50),
+                location VARCHAR(255),
+                city VARCHAR(255)
+            )
+        """)
+    db_config.commit()
