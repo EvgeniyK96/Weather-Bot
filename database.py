@@ -1,15 +1,38 @@
 import psycopg2
-from config import host, port, database, user, password
+from urllib.parse import urlparse, unquote
+from config import DATABASE_URL
 
-CONNECT = {
-    'host': host,
-    'port': port,
-    'dbname': database,
-    'user': user,
-    'password': password
-}
 
-db_config = psycopg2.connect(**CONNECT)
+def _build_connect_params(database_url: str):
+    if not database_url:
+        raise RuntimeError("DATABASE_URL is not set")
+    # Remove async driver marker if present (e.g. +asyncpg)
+    cleaned = database_url.replace("+asyncpg", "")
+    # Normalize legacy postgres:// to postgresql:// if needed
+    if cleaned.startswith("postgres://"):
+        cleaned = "postgresql://" + cleaned[len("postgres://"):]
+    parsed = urlparse(cleaned)
+    user = unquote(parsed.username) if parsed.username else None
+    password = unquote(parsed.password) if parsed.password else None
+    host = parsed.hostname
+    port = parsed.port
+    dbname = parsed.path.lstrip("/") if parsed.path else None
+    params = {
+        'host': host,
+        'port': port,
+        'dbname': dbname,
+        'user': user,
+        'password': password
+    }
+    return {k: v for k, v in params.items() if v is not None}
+
+
+try:
+    CONNECT = _build_connect_params(DATABASE_URL)
+    db_config = psycopg2.connect(**CONNECT)
+except Exception as e:
+    print("Failed to connect to database:", e)
+    db_config = None
 
 # def user_get_or_create( **kwargs):
 #     with db_config.cursor() as cursor:

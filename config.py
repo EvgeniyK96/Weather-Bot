@@ -4,8 +4,8 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-BOT_TOKEN = os.getenv("BOT_TOKEN", "")
-API_KEY = int(os.getenv("API_KEY", "0"))
+bot_token = os.getenv("BOT_TOKEN", "")
+weather_api_key = int(os.getenv("API_KEY", "0"))
 
 DATABASE_URL = os.getenv("DATABASE_URL")
 if DATABASE_URL:
