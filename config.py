@@ -1,14 +1,17 @@
 import os
-from configparser import ConfigParser
+from dotenv import load_dotenv
 
-config = ConfigParser()
-config.read('config.ini')
+load_dotenv()
 
-bot_token = config['Bot']['TOKEN']
-weather_api_key = config['Weather']['API_KEY']
 
-host = config['Database']['HOST']
-port = config['Database']['PORT']
-database = config['Database']['DATABASE']
-user = config['Database']['USER']
-password = config['Database']['PASSWORD']
+BOT_TOKEN = os.getenv("BOT_TOKEN", "")
+API_KEY = int(os.getenv("API_KEY", "0"))
+
+DATABASE_URL = os.getenv("DATABASE_URL")
+if DATABASE_URL:
+    if DATABASE_URL.startswith("postgres://"):
+        DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql+asyncpg://", 1)
+    elif DATABASE_URL.startswith("postgresql://") and "+asyncpg" not in DATABASE_URL:
+        DATABASE_URL = DATABASE_URL.replace("postgresql://", "postgresql+asyncpg://", 1)
+
+TIMEZONE = os.getenv("TIMEZONE", "Asia/Almaty")
